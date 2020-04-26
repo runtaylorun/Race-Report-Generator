@@ -1,0 +1,13 @@
+{
+    "name": "Race Report Generator",
+    "version": "1.0",
+    "description": "Fill out a race report for your team",
+    "manifest_version": 2,
+    "permissions": [
+        "storage",
+        "http://localhost:3000"
+    ],
+    "browser_action": {
+        "default_popup": "index.html"
+    }
+}

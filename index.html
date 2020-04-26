@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Race Report Generator</h1>
+    <form method="POST" enctype="multipart/form-data" id="teamForm" name="teamForm">
+        <label>Name</label>
+        <label>Grade</label>
+        <label>Time</label>
+        <input name="name[]" type="text">
+        <input name="grade[]" type="text">
+        <input name="time[]" type="text">
+    </form>
+    <div class="addRemoveDiv">
+        <button id="addRow">Add Row</button>
+        <button id="removeRow">Remove Row</button>
+    </div>
+    <div class="submitDiv">
+        <button id="submit" type="submit" form="teamForm">Submit</button>
+        <button type="reset" form="teamForm">Clear</button>
+    </div>
+    <script src="download.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

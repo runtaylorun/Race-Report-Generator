@@ -1,0 +1,89 @@
+* {
+    font-family: 'Roboto', sans-serif;
+    color: #FF8636;
+}
+
+body {
+    width: 600px;
+    height: 500px;
+    background-color: #F0F5F0;
+}
+
+form {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+h1 {
+    text-align: center;
+    font-size: 25px;
+}
+
+label {
+    text-align: center;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+input {
+    margin-top: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    transition: border-color, ease-in, 0.3s;
+}
+
+input:hover {
+    border-color: #FF8636;
+}
+
+label, input {
+    flex-basis: 30%;
+}
+
+button {
+    text-align: center;
+    padding: 5px 15px 5px 15px;
+    margin: 15px 10px 10px 0px;
+    background-color: #FF8636;
+    border: 1px solid transparent;
+    color: #253044;
+    box-shadow: 0px 9px 8px -8px rgba(0,0,0,0.28);
+    transition: box-shadow, background-color, ease-in, 0.3s;
+}
+
+button:hover {
+    box-shadow: 0px 9px 5px -6px rgba(0,0,0,0.28);
+    background-color: #ff7214;
+}
+
+.addRemoveDiv {
+    display: flex;
+    justify-content: center;
+}
+
+.submitDiv {
+    display: flex;
+    justify-content: center;
+}
+
+#addRow {
+    background-color: #66bd76;
+    transition: background-color, ease-in, 0.3s;
+}
+
+#addRow:hover {
+    background-color: #4eb361
+}
+
+#removeRow {
+    background-color: #f44336;
+    transition: background-color, ease-in, 0.3s;
+}
+
+#removeRow:hover {
+    background-color: #f22516;
+}
