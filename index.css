@@ -9,15 +9,15 @@ body {
     background-color: #F0F5F0;
 }
 
+h1 {
+    text-align: center;
+    font-size: 25px;
+}
+
 form {
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-}
-
-h1 {
-    text-align: center;
-    font-size: 25px;
 }
 
 label {
@@ -33,15 +33,25 @@ input {
     font-size: 16px;
     text-align: center;
     border-bottom: 1px solid black;
-    transition: border-color, ease-in, 0.3s;
-}
-
-input:hover {
-    border-color: #FF8636;
 }
 
 label, input {
     flex-basis: 30%;
+}
+
+
+a {
+    font-size: 15px;
+    position: absolute;
+    border-bottom: 1px solid transparent;
+    right: 15px;
+    bottom: 15px;
+    transition: border-color 0.2s ease-in;
+}
+
+a:hover {
+    cursor: pointer;
+    border-color: #ff7214;
 }
 
 button {
@@ -50,7 +60,7 @@ button {
     margin: 15px 10px 10px 0px;
     background-color: #FF8636;
     border: 1px solid transparent;
-    color: #253044;
+    color: #F0F5F0;
     box-shadow: 0px 9px 8px -8px rgba(0,0,0,0.28);
     transition: box-shadow, background-color, ease-in, 0.3s;
 }
@@ -58,32 +68,102 @@ button {
 button:hover {
     box-shadow: 0px 9px 5px -6px rgba(0,0,0,0.28);
     background-color: #ff7214;
+    cursor: pointer;
 }
 
-.addRemoveDiv {
+.add-remove-row-buttons-div {
     display: flex;
     justify-content: center;
 }
 
-.submitDiv {
+.form-action-buttons-div {
     display: flex;
     justify-content: center;
 }
 
-#addRow {
+#add_row_button {
     background-color: #66bd76;
     transition: background-color, ease-in, 0.3s;
 }
 
-#addRow:hover {
+#add_row_button:hover, #add_row_button:focus {
     background-color: #4eb361
 }
 
-#removeRow {
+#remove_row_button {
     background-color: #f44336;
     transition: background-color, ease-in, 0.3s;
 }
 
-#removeRow:hover {
+#remove_row_button:hover, #remove_row_button:focus {
     background-color: #f22516;
+}
+/*
+    Settings Modal related content below here
+*/
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    animation-name: modalFadeIn;
+    animation-duration: 0.5s;
+}
+
+.modal-header {
+    background-color: #ff7214;
+    padding: 15px;
+}
+
+.modal-header h1, span {
+    color: #F0F5F0;
+    margin: 0;
+}
+
+.modal-body{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.modal-content {
+    background-color: #F0F5F0;
+    margin: 30% auto;
+    width: 70%;
+    box-shadow: 0 5px 8px 0 rgba(0,0,0,0.2), 0 7px 20px 0 rgba(0,0,0,0.17);
+    animation-name: modal-Content-Slide-Down;
+    animation-duration: 1s;
+}
+
+.modal-close-icon {
+    float: right;
+    font-size: 30px;
+}
+
+.modal-close-icon:hover, .modal-close-icon:focus {
+    cursor: pointer;
+}
+
+.modal-button {
+    display: block;
+}
+
+@keyframes modal-Content-Slide-Down {
+    from{transform: translate(0, -400px);}
+    to {transform: translate(0);}
+}
+
+@keyframes modalFadeIn {
+    from{opacity: 0;}
+    to{opacity: 1;}
+}
+
+@keyframes modalFadeOut {
+    from{opacity: 1;}
+    to{opacity: 0;}
 }

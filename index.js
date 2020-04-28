@@ -1,14 +1,21 @@
-let addRowButton = document.getElementById('addRow');
-let removeRowButton = document.getElementById('removeRow');
-const teamForm = document.getElementById('teamForm');
-let submitButton = document.getElementById('submit')
+const addRowButton = document.getElementById('add_row_button');
+const removeRowButton = document.getElementById('remove_row_button');
+const teamForm = document.getElementById('team_form');
+const submitButton = document.getElementById('submit_form_button')
 const minimumNumberOfFormElements = 6;
 let rowsToCreateOnInitialization = 0
+// Modal Elements 
+const settingsLink = document.getElementById('settings_link')
+const modal = document.getElementById('modal')
+const modalCloseIcon = document.getElementById('modal_close_icon')
+const loadRosterButton = document.getElementById('load_roster')
+const saveRosterButton = document.getElementById('save_roster')
 
  window.onload = () => {
       /* chrome.storage.sync.clear(() => {
 
       }) */
+
 
       chrome.storage.sync.get('rowsToCreate', (result) => {
           if(result.rowsToCreate === 0 || result.rowsToCreate === undefined) {
@@ -96,4 +103,53 @@ let createInputRows = (inputElementArray, numberOfRowsToCreate) => {
         }
 
         return inputElementArray;
+}
+
+// Settings modal related functionality below this point
+
+settingsLink.addEventListener('click', openModal);
+modalCloseIcon.addEventListener('click', closeModal);
+window.addEventListener('click', clickOutside)
+modal.addEventListener('animationend', changeModalDisplay)
+saveRosterButton.addEventListener('click', () => {
+    let names = []
+    let grades = []
+    teamForm.childNodes.forEach(node => {
+        if(node.name == 'name[]') {
+            names.push(node.value)
+        } 
+        else if (node.name = 'grade[]') {
+            grades.push(node.value)
+        }
+    })
+    createRosterObjects(names, grades)
+})
+
+function openModal() {
+    modal.style.display = 'block';
+}
+
+function closeModal() {
+    modal.style.animationName = 'modalFadeOut';
+}
+
+function clickOutside(e) {
+    if(e.target == modal) {
+        modal.style.animationName = 'modalFadeOut'
+    }
+}
+
+function changeModalDisplay(e) {
+    if(e.target.style.animationName == 'modalFadeOut') {
+        e.target.style.display = 'none';
+        e.target.style.animationName = 'modalFadeIn'
+    }
+}
+
+let createRosterObjects = (names, grades) => {
+    let roster = []
+    for(let i = 0; i < names.length; i++) {
+        roster.push({name: names[i], grade: grades[i]})
+    }
+    console.log(roster)
 }
