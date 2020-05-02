@@ -10,12 +10,16 @@
 <body>
     <h1>Race Report Generator</h1>
     <form method="POST" enctype="multipart/form-data" id="team_form" name="teamForm">
+        <div class="meet-input-container">
+            <label>Meet Name</label>
+            <input id="meetName" class="form-input-meetName form-input" name="meetName" type="text"/>
+        </div>
         <label>Name</label>
-        <label>Grade</label>
         <label>Time</label>
-        <input name="name[]" type="text">
-        <input name="grade[]" type="text">
-        <input name="time[]" type="text">
+        <label>Place</label>
+        <input class="form-input form-input-name" name="name[]" type="text"/>
+        <input class="form-input form-input-time" name="time[]" type="text"/>
+        <input class="form-input form-input-place" name="place[]" type="text"/>
     </form>
     <div class="add-remove-row-buttons-div">
         <button id="add_row_button">Add Row</button>
@@ -23,7 +27,7 @@
     </div>
     <div class="form-action-buttons-div">
         <button id="submit_form_button" type="submit" form="team_form">Submit</button>
-        <button id="clear_form_button" form="team_form">Clear</button>
+        <button id="clear_form_button">Clear</button>
     </div>
     <a id="settings_link">Settings</a>
     <div id="modal" class="modal">
@@ -33,12 +37,10 @@
                 <h1>Settings</h1>
             </div>
             <div class="modal-body">
-                <button id="load_roster" class="modal-button">Load Roster</button>
                 <button id="save_roster" class="modal-button">Save Roster</button>
             </div>
         </div>
     </div>
-    <script src="download.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

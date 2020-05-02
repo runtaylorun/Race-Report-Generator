@@ -28,6 +28,8 @@ const saveRosterButton = document.getElementById('save_roster')
             addInputRowsToForm(inputElementArray);
           }
       })
+
+      loadRoster();
  }
 
 addRowButton.addEventListener("click", () => {
@@ -41,7 +43,7 @@ addRowButton.addEventListener("click", () => {
 })
 
 removeRowButton.addEventListener("click", () => {
-    const minimumNumberOfFormElements = 6;
+    const minimumNumberOfFormElements = 7;
 
     if(teamForm.childElementCount <= minimumNumberOfFormElements) {
         alert('Cannot have less than 1 row')
@@ -57,13 +59,26 @@ removeRowButton.addEventListener("click", () => {
 
 teamForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const formData = new FormData(teamForm)
-    let response = await postFormData(formData);
+    if(!validFormInput()) {
+        alert('form input is invalid')
+    } else {
+        const formData = new FormData(teamForm)
+        let response = await postFormData(formData);
+        console.log(response)
 
-    download(response);
+        const url = window.URL.createObjectURL(response);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = document.getElementById('meetName').value;
+        document.body.append(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url)
+    }
 })
 
 clearFormButton.addEventListener('click', () => {
+    document.getElementById('meetName').value = "";
     teamForm.childNodes.forEach(node => {
         node.value = "";
     })
@@ -73,7 +88,7 @@ async function postFormData(formData) {
     console.log(formData)
         const response = await fetch('http://localhost:3000/api/report', {
             method: 'POST',
-            body: formData
+            body: formData,
         });
     
        return await response.blob();
@@ -84,17 +99,20 @@ let createInputRows = (numberOfRowsToCreate) => {
 
         for(let i = 0; i < numberOfRowsToCreate; i++) {
             let nameInput = document.createElement('INPUT')
-            let gradeInput = document.createElement('INPUT')
             let timeInput = document.createElement('INPUT')
+            let placeInput = document.createElement('INPUT')
+            nameInput.setAttribute("class", "form-input form-input-name")
+            timeInput.setAttribute("class", "form-input form-input-time")
+            placeInput.setAttribute("class", "form-input form-input-place")
             nameInput.setAttribute("name", "name[]")
-            gradeInput.setAttribute("name", "grade[]")
             timeInput.setAttribute("name", "time[]")
+            placeInput.setAttribute("name", "place[]")
             nameInput.setAttribute("type", "text")
-            gradeInput.setAttribute("type", "text")
             timeInput.setAttribute("type", "text")
+            placeInput.setAttribute("type", "text")
             inputElementArray.push(nameInput);
-            inputElementArray.push(gradeInput);
             inputElementArray.push(timeInput);
+            inputElementArray.push(placeInput);
         }
 
         return inputElementArray;
@@ -125,37 +143,21 @@ modal.addEventListener('animationend', changeModalDisplay)
 
 saveRosterButton.addEventListener('click', () => {
     let names = []
-    let grades = []
     teamForm.childNodes.forEach(node => {
         if(node.name == 'name[]') {
             names.push(node.value)
         } 
-        else if (node.name == 'grade[]') {
-            grades.push(node.value)
-        }
         else {
             
         }
     })
-    let roster = createRosterObjects(names, grades)
+    let roster = createRosterObjects(names)
 
     chrome.storage.sync.set({'roster': roster}, () => {
         console.log(`Set roster in storage`)
     })
 
-})
-
-loadRosterButton.addEventListener('click', () => {
-    chrome.storage.sync.get('roster', (result) => {
-        let nameInputElements = document.getElementsByName('name[]');
-        let gradeInputElements = document.getElementsByName('grade[]');
-        for(let i = 0; i < result.roster.length; i++) {
-            nameInputElements[i].value = result.roster[i].name;
-            gradeInputElements[i].value = result.roster[i].grade;
-        }
-    })
-
-    
+    alert('Team Roster Saved!')
 
 })
 
@@ -180,10 +182,61 @@ function changeModalDisplay(e) {
     }
 }
 
-let createRosterObjects = (names, grades) => {
+let createRosterObjects = (names) => {
     let roster = []
     for(let i = 0; i < names.length; i++) {
-        roster.push({name: names[i], grade: grades[i]})
+        roster.push({name: names[i]})
     }
     return roster;
+}
+
+let fillNameInputsWithRoster = (nameInputElements, roster) => {
+    for(let i = 0; i < roster.length; i++) {
+        nameInputElements[i].value = roster[i].name;
+    }
+}
+
+let loadRoster = () => {
+    chrome.storage.sync.get('roster', (result) => {
+        if(result.roster === undefined || result.roster.length == 0) {
+            return;
+        } else {
+            let nameInputElements = document.getElementsByName('name[]');
+            if(nameInputElements.length < result.roster.length) {
+                let rowsToCreate = result.roster.length - nameInputElements.length;
+                rowsToCreateOnInitialization += rowsToCreate;
+                setRowsToCreateInChromeStorage(rowsToCreateOnInitialization)
+                addInputRowsToForm(createInputRows(rowsToCreate));
+                fillNameInputsWithRoster(nameInputElements, result.roster)
+            } else {
+                fillNameInputsWithRoster(nameInputElements, result.roster)
+            }
+        }
+    })
+}
+
+let validFormInput = () => {
+    let formInputs = document.getElementsByClassName('form-input');
+    console.log(formInputs)
+    let testsPassed = 0;
+
+    if(!fieldIsEmpty(formInputs)) {
+        testsPassed += 1;
+    }
+
+    if(testsPassed === 1) {
+        return true;
+    }
+
+}
+
+let fieldIsEmpty = (formInputs) => {
+    console.log(typeof(formInputs))
+    for(let i = 0; i < formInputs.length; i++) {
+        if(formInputs[i].value == "") {
+            return true
+        }
+    }
+
+    return false;
 }
