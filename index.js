@@ -1,18 +1,17 @@
 const addRowButton = document.getElementById('add_row_button');
 const removeRowButton = document.getElementById('remove_row_button');
-const clearFormButton = document.getElementById('clear_form_button')
-const settingsLink = document.getElementById('settings_link')
+const clearFormButton = document.getElementById('clear_form_button');
+const settingsLink = document.getElementById('settings_link');
 const teamForm = document.getElementById('team_form');
-let rowsToCreateOnInitialization = 0
-// Modal Elements 
-const modal = document.getElementById('modal')
-const modalCloseIcon = document.getElementById('modal_close_icon')
-const loadRosterButton = document.getElementById('load_roster')
-const saveRosterButton = document.getElementById('save_roster')
+let rowsToCreateOnInitialization = 0;
+// Modal Elements
+const modal = document.getElementById('modal');
+const modalCloseIcon = document.getElementById('modal_close_icon');
+const loadRosterButton = document.getElementById('load_roster');
+const saveRosterButton = document.getElementById('save_roster');
 
-
- window.onload = () => {
-      /* chrome.storage.sync.clear(() => {
+window.onload = () => {
+	/* chrome.storage.sync.clear(() => {
 
       }) */
  
@@ -119,27 +118,32 @@ let createInputRows = (numberOfRowsToCreate) => {
 }
 
 let addInputRowsToForm = (inputElementArray) => {
-    inputElementArray.forEach(element => teamForm.appendChild(element))
-}
+	inputElementArray.forEach((element) => teamForm.appendChild(element));
+};
 
 let removeRowFromForm = () => {
-    for(let i = 0; i < 3; i++) {
-        teamForm.removeChild(teamForm.lastChild)
-    }
-}
+	for (let i = 0; i < 3; i++) {
+		teamForm.removeChild(teamForm.lastChild);
+	}
+};
 
 let setRowsToCreateInChromeStorage = (rowsToCreateOnInitialization) => {
-    chrome.storage.sync.set({'rowsToCreate': rowsToCreateOnInitialization}, () => {
-        console.log('Extra row value set in storage: ' + rowsToCreateOnInitialization)
-    })
-}
+	chrome.storage.sync.set(
+		{ rowsToCreate: rowsToCreateOnInitialization },
+		() => {
+			console.log(
+				'Extra row value set in storage: ' + rowsToCreateOnInitialization
+			);
+		}
+	);
+};
 
 // Settings modal related functionality below this point
 
 settingsLink.addEventListener('click', openModal);
 modalCloseIcon.addEventListener('click', closeModal);
-window.addEventListener('click', clickOutside)
-modal.addEventListener('animationend', changeModalDisplay)
+window.addEventListener('click', clickOutside);
+modal.addEventListener('animationend', changeModalDisplay);
 
 saveRosterButton.addEventListener('click', () => {
     let names = []
@@ -162,24 +166,24 @@ saveRosterButton.addEventListener('click', () => {
 })
 
 function openModal() {
-    modal.style.display = 'block';
+	modal.style.display = 'block';
 }
 
 function closeModal() {
-    modal.style.animationName = 'modalFadeOut';
+	modal.style.animationName = 'modalFadeOut';
 }
 
 function clickOutside(e) {
-    if(e.target == modal) {
-        modal.style.animationName = 'modalFadeOut'
-    }
+	if (e.target == modal) {
+		modal.style.animationName = 'modalFadeOut';
+	}
 }
 
 function changeModalDisplay(e) {
-    if(e.target.style.animationName == 'modalFadeOut') {
-        e.target.style.display = 'none';
-        e.target.style.animationName = 'modalFadeIn'
-    }
+	if (e.target.style.animationName == 'modalFadeOut') {
+		e.target.style.display = 'none';
+		e.target.style.animationName = 'modalFadeIn';
+	}
 }
 
 let createRosterObjects = (names) => {
